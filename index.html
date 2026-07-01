@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Halal Near Me — Find Halal Food &amp; Prayer Spaces Across the GTA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --forest:#0B4A3A;
+  --forest-dark:#073226;
+  --forest-tint:#E4EEE9;
+  --navy:#0D1B2A;
+  --gold:#C89B3C;
+  --gold-light:#E9CE87;
+  --cream:#FAF7F0;
+  --white:#FFFFFF;
+  --ink:#152019;
+  --ink-soft:#4C5A52;
+  --line:#DCE3DC;
+  --danger:#B8452F;
+  --radius:14px;
+  --shadow:0 4px 18px rgba(13,27,26,0.08);
+  --shadow-lg:0 12px 40px rgba(13,27,26,0.16);
+}
+[data-theme="dark"]{
+  --cream:#0E1712;
+  --white:#152019;
+  --ink:#F3F1EA;
+  --ink-soft:#B7C2BA;
+  --line:#28362E;
+  --forest-tint:#152A22;
+  --shadow:0 4px 18px rgba(0,0,0,0.35);
+  --shadow-lg:0 12px 40px rgba(0,0,0,0.5);
+}
+*{box-sizing:border-box;}
+body{margin:0;}
+html,body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s;}
+h1,h2,h3,h4{font-family:'Fraunces',serif;margin:0;color:var(--ink);letter-spacing:-0.01em;}
+p{margin:0;color:var(--ink-soft);line-height:1.6;}
+a{color:inherit;text-decoration:none;}
+button{font-family:'Inter',sans-serif;cursor:pointer;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+img,svg{display:block;}
+::selection{background:var(--gold-light);color:var(--navy);}
+
+#app{min-height:100vh;display:flex;flex-direction:column;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+.section{padding:64px 0;}
+.section-tight{padding:36px 0;}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--forest);font-weight:500;}
+[data-theme="dark"] .eyebrow{color:var(--gold-light);}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:28px;flex-wrap:wrap;}
+.section-head h2{font-size:30px;}
+.section-sub{color:var(--ink-soft);margin-top:6px;max-width:520px;}
+
+/* ---------- Header ---------- */
+header.site{position:sticky;top:0;z-index:100;background:var(--cream);border-bottom:1px solid var(--line);backdrop-filter:blur(6px);}
+.nav-row{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:1180px;margin:0 auto;gap:16px;}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:20px;cursor:pointer;}
+.brand-mark{width:34px;height:34px;border-radius:9px;background:var(--forest);display:flex;align-items:center;justify-content:center;color:var(--gold-light);font-size:17px;flex-shrink:0;}
+.nav-links{display:flex;gap:26px;align-items:center;}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--ink-soft);cursor:pointer;padding:6px 0;border-bottom:2px solid transparent;}
+.nav-links a:hover,.nav-links a.active{color:var(--forest);border-color:var(--gold);}
+[data-theme="dark"] .nav-links a:hover,[data-theme="dark"] .nav-links a.active{color:var(--gold-light);}
+.nav-actions{display:flex;align-items:center;gap:10px;}
+.icon-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:16px;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:999px;font-weight:600;font-size:14.5px;border:1px solid transparent;transition:transform .12s ease;white-space:nowrap;}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--forest);color:#fff;}
+.btn-primary:hover{background:var(--forest-dark);}
+.btn-gold{background:var(--gold);color:var(--navy);}
+.btn-gold:hover{background:var(--gold-light);}
+.btn-outline{background:transparent;border-color:var(--line);color:var(--ink);}
+.btn-outline:hover{border-color:var(--forest);}
+.btn-ghost{background:transparent;color:var(--ink-soft);}
+.btn-sm{padding:7px 14px;font-size:13px;border-radius:999px;}
+.btn-block{width:100%;}
+.hamburger{display:none;}
+.mobile-menu{display:none;}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:radial-gradient(circle at 15% 20%,rgba(200,155,60,.12),transparent 45%),linear-gradient(180deg,var(--navy) 0%,var(--forest-dark) 100%);color:#fff;overflow:hidden;}
+.hero-inner{max-width:1180px;margin:0 auto;padding:88px 24px 64px;position:relative;z-index:2;}
+.hero-pin{position:absolute;opacity:.15;font-size:120px;}
+.hero h1{font-size:52px;line-height:1.06;color:#fff;max-width:760px;font-weight:600;}
+.hero p.lead{color:#D9E2DC;font-size:18px;max-width:560px;margin-top:18px;}
+.hero-cta{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap;}
+.search-bar{margin-top:36px;background:#fff;border-radius:16px;padding:8px;display:flex;gap:8px;box-shadow:var(--shadow-lg);max-width:720px;flex-wrap:wrap;}
+.search-bar input,.search-bar select{border:none;outline:none;font-family:'Inter',sans-serif;font-size:14.5px;padding:12px 14px;background:transparent;color:var(--ink);flex:1;min-width:140px;}
+.hero-stats{display:flex;gap:34px;margin-top:44px;flex-wrap:wrap;}
+.hero-stat b{display:block;font-family:'Fraunces',serif;font-size:26px;color:var(--gold-light);}
+.hero-stat span{font-size:12.5px;color:#B9C4BE;text-transform:uppercase;letter-spacing:.08em;}
+
+/* ---------- Cards ---------- */
+.grid{display:grid;gap:22px;}
+.grid-3{grid-template-columns:repeat(3,1fr);}
+.grid-4{grid-template-columns:repeat(4,1fr);}
+.grid-2{grid-template-columns:repeat(2,1fr);}
+@media(max-width:980px){.grid-4{grid-template-columns:repeat(2,1fr);}.grid-3{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:640px){.grid-4,.grid-3,.grid-2{grid-template-columns:1fr;}}
+
+.card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:transform .15s ease,box-shadow .15s ease;display:flex;flex-direction:column;}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.card-media{height:150px;background:linear-gradient(135deg,var(--forest-tint),var(--forest) 220%);display:flex;align-items:center;justify-content:center;font-size:42px;position:relative;}
+.card-media .fav{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-size:15px;}
+.card-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1;}
+.card-title-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.card-title-row h4{font-size:17px;}
+.rating{font-family:'IBM Plex Mono',monospace;font-size:12.5px;background:var(--forest-tint);color:var(--forest);padding:3px 8px;border-radius:6px;white-space:nowrap;}
+[data-theme="dark"] .rating{color:var(--gold-light);}
+.card-meta{font-size:13px;color:var(--ink-soft);}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px;}
+.badge{font-size:11.5px;font-weight:600;padding:4px 9px;border-radius:999px;display:inline-flex;align-items:center;gap:5px;font-family:'Inter',sans-serif;}
+.badge-hand{background:#DDF3E4;color:#1D7A44;}
+.badge-machine{background:#FCF0CB;color:#8A6B10;}
+.badge-hma{background:#DCEAFB;color:#1B5FA8;}
+.badge-hfsaa{background:#FBE3D2;color:#B15A1F;}
+.badge-owned{background:#EAE0F7;color:#6B3FA0;}
+.badge-unknown{background:#EDEDED;color:#666;}
+.badge-cuisine{background:var(--forest-tint);color:var(--forest);}
+[data-theme="dark"] .badge-cuisine{color:var(--gold-light);}
+.card-foot{display:flex;gap:8px;margin-top:auto;padding-top:6px;}
+.pill{font-size:12px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;color:var(--ink-soft);}
+
+/* ---------- Filters / Directory ---------- */
+.directory-layout{display:grid;grid-template-columns:250px 1fr;gap:32px;align-items:start;}
+@media(max-width:900px){.directory-layout{grid-template-columns:1fr;}}
+.filter-panel{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:20px;position:sticky;top:80px;}
+.filter-group{margin-bottom:20px;}
+.filter-group h5{font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin-bottom:10px;font-weight:700;font-family:'Inter',sans-serif;}
+.check-row{display:flex;align-items:center;gap:8px;font-size:14px;padding:5px 0;color:var(--ink);cursor:pointer;}
+.check-row input{accent-color:var(--forest);width:15px;height:15px;}
+.select-field,.text-field,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--white);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;outline:none;}
+.select-field:focus,.text-field:focus,textarea:focus{border-color:var(--forest);}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+.toolbar .count{font-size:13.5px;color:var(--ink-soft);}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.chip{font-size:12.5px;background:var(--forest-tint);color:var(--forest);padding:5px 10px;border-radius:999px;display:flex;align-items:center;gap:6px;}
+[data-theme="dark"] .chip{color:var(--gold-light);}
+.chip button{background:none;border:none;color:inherit;font-size:13px;padding:0;}
+.empty-state{padding:60px 20px;text-align:center;border:1px dashed var(--line);border-radius:var(--radius);}
+.empty-state h4{margin-bottom:8px;}
+
+/* ---------- Detail page ---------- */
+.detail-hero{background:linear-gradient(135deg,var(--forest-tint),var(--white));border-radius:20px;padding:34px;display:flex;gap:28px;flex-wrap:wrap;align-items:center;margin-bottom:32px;}
+.detail-icon{width:110px;height:110px;border-radius:20px;background:var(--forest);color:var(--gold-light);font-size:48px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.detail-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+.info-grid{display:grid;grid-template-columns:2fr 1fr;gap:32px;}
+@media(max-width:900px){.info-grid{grid-template-columns:1fr;}}
+.info-block{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:20px;}
+.info-block h4{margin-bottom:12px;font-size:16px;}
+.kv-row{display:flex;justify-content:space-between;font-size:14px;padding:9px 0;border-bottom:1px solid var(--line);}
+.kv-row:last-child{border-bottom:none;}
+.kv-row span:first-child{color:var(--ink-soft);}
+.disclaimer{background:#FBF1DC;border:1px solid var(--gold);color:#7A5B12;padding:14px 16px;border-radius:10px;font-size:13.5px;display:flex;gap:10px;align-items:flex-start;}
+[data-theme="dark"] .disclaimer{background:#2A2410;color:var(--gold-light);}
+
+/* ---------- Forms ---------- */
+.form-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:30px;max-width:720px;}
+.form-row{margin-bottom:16px;}
+.form-row label{display:block;font-size:13.5px;font-weight:600;margin-bottom:6px;}
+.form-2col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:600px){.form-2col{grid-template-columns:1fr;}}
+.radio-tile-row{display:flex;flex-wrap:wrap;gap:8px;}
+.radio-tile{border:1px solid var(--line);border-radius:9px;padding:9px 13px;font-size:13.5px;cursor:pointer;}
+.radio-tile.active{border-color:var(--forest);background:var(--forest-tint);color:var(--forest);}
+[data-theme="dark"] .radio-tile.active{color:var(--gold-light);}
+
+/* ---------- Testimonials / misc ---------- */
+.testi-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:22px;}
+.testi-card p{font-style:italic;color:var(--ink);margin-bottom:14px;}
+.testi-author{font-size:13px;color:var(--ink-soft);font-weight:600;}
+.city-pill{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;font-weight:600;font-size:14px;transition:.15s;}
+.city-pill:hover{border-color:var(--forest);color:var(--forest);}
+.why-card{padding:22px;border-radius:var(--radius);background:var(--white);border:1px solid var(--line);}
+.why-card .ic{font-size:26px;margin-bottom:10px;}
+.banner-note{background:var(--forest-tint);border:1px solid var(--forest);color:var(--forest);padding:12px 18px;border-radius:10px;font-size:13.5px;margin-bottom:26px;}
+[data-theme="dark"] .banner-note{color:var(--gold-light);}
+
+/* ---------- Dashboards / tables ---------- */
+.dash-shell{display:grid;grid-template-columns:220px 1fr;gap:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--white);min-height:520px;}
+@media(max-width:800px){.dash-shell{grid-template-columns:1fr;}}
+.dash-side{background:var(--forest-tint);padding:20px 14px;border-right:1px solid var(--line);}
+.dash-side a{display:block;padding:10px 12px;border-radius:8px;font-size:14px;font-weight:500;color:var(--ink);margin-bottom:4px;}
+.dash-side a.active,.dash-side a:hover{background:var(--forest);color:#fff;}
+.dash-main{padding:26px;}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+@media(max-width:700px){.stat-grid{grid-template-columns:repeat(2,1fr);}}
+.stat-box{border:1px solid var(--line);border-radius:12px;padding:16px;}
+.stat-box b{font-family:'Fraunces',serif;font-size:26px;display:block;}
+.stat-box span{font-size:12.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;}
+table{width:100%;border-collapse:collapse;font-size:13.5px;}
+th{text-align:left;padding:10px 8px;border-bottom:2px solid var(--line);color:var(--ink-soft);font-size:12px;text-transform:uppercase;letter-spacing:.04em;}
+td{padding:11px 8px;border-bottom:1px solid var(--line);vertical-align:middle;}
+.status-tag{padding:3px 9px;border-radius:999px;font-size:11.5px;font-weight:600;}
+.status-pending{background:#FCF0CB;color:#8A6B10;}
+.status-approved{background:#DDF3E4;color:#1D7A44;}
+.status-rejected{background:#FADADA;color:#B8452F;}
+.tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{padding:8px 16px;border-radius:999px;border:1px solid var(--line);font-size:13.5px;font-weight:600;background:var(--white);color:var(--ink-soft);}
+.tab-btn.active{background:var(--forest);border-color:var(--forest);color:#fff;}
+
+/* ---------- Toast / modal ---------- */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 20px;border-radius:999px;font-size:13.5px;box-shadow:var(--shadow-lg);z-index:999;opacity:0;pointer-events:none;transition:opacity .25s, transform .25s;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);}
+.modal-bg{position:fixed;inset:0;background:rgba(13,27,26,.55);display:flex;align-items:center;justify-content:center;z-index:500;padding:20px;}
+.modal-box{background:var(--white);border-radius:16px;padding:26px;max-width:420px;width:100%;}
+.modal-box h3{margin-bottom:10px;}
+
+/* ---------- Footer ---------- */
+footer.site{background:var(--navy);color:#C7D1CB;margin-top:auto;padding-top:56px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;padding-bottom:32px;}
+@media(max-width:800px){.footer-grid{grid-template-columns:1fr 1fr;}}
+footer.site h5{color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;}
+footer.site a{display:block;font-size:14px;color:#B9C4BE;padding:5px 0;}
+footer.site a:hover{color:var(--gold-light);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding:18px 24px;font-size:12.5px;color:#8E9C95;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+
+/* ---------- Responsive nav ---------- */
+@media(max-width:860px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;width:38px;height:38px;border-radius:9px;border:1px solid var(--line);align-items:center;justify-content:center;background:var(--white);}
+  .mobile-menu.open{display:flex;flex-direction:column;padding:10px 24px 18px;gap:2px;border-bottom:1px solid var(--line);background:var(--cream);}
+  .mobile-menu a{padding:10px 4px;font-size:15px;font-weight:500;border-bottom:1px solid var(--line);}
+  .hero h1{font-size:36px;}
+  .detail-hero{padding:22px;}
+}
+.section-badge-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--ink-soft);margin-top:10px;}
+.legend-dot{display:inline-flex;align-items:center;gap:6px;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast"></div>
+
+<script>
+/* ============================================================
+   HALAL NEAR ME — MVP SPA (vanilla JS, hash-based routing)
+   All data below is SAMPLE / DEMO data for MVP demonstration.
+   No real halal-status or certification claims are implied.
+   ============================================================ */
+
+/* ---------------- DATA ---------------- */
+const CITIES = ["Toronto","Scarborough","North York","Etobicoke","East York","York",
+  "Mississauga","Brampton","Pickering","Ajax","Whitby","Oshawa","Markham",
+  "Richmond Hill","Vaughan","Milton","Oakville","Burlington","Hamilton"];
+
+const CUISINES = ["Pakistani","Indian","Afghan","Turkish","Arab","Lebanese","Syrian","Yemeni",
+  "Egyptian","Somali","Bangladeshi","Burgers","Shawarma","BBQ","Steak","Desserts","Fast Food",
+  "Mediterranean","Chinese","Japanese","Korean","Mexican","Italian","Other"];
+
+const METHODS = {
+  hand: {label:"Hand-Slaughtered", cls:"badge-hand", dot:"🟢", slug:"hand-slaughtered-halal-restaurants-gta"},
+  machine: {label:"Machine-Slaughtered", cls:"badge-machine", dot:"🟡", slug:"machine-slaughtered-halal-restaurants-gta"},
+  hma: {label:"HMA Certified", cls:"badge-hma", dot:"🔵", slug:"hma-certified-restaurants-gta"},
+  hfsaa: {label:"HFSAA Certified", cls:"badge-hfsaa", dot:"🟠", slug:"hfsaa-certified-restaurants-gta"},
+  owned: {label:"Muslim-Owned", cls:"badge-owned", dot:"🟣", slug:"muslim-owned-restaurants-gta"},
+  unknown: {label:"Confirm Before Ordering", cls:"badge-unknown", dot:"⚪", slug:null}
+};
+
+function slugify(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');}
+
+// NOTE: Restaurant & masjid records below are SAMPLE data seeded for MVP demonstration
+// purposes only. Names are illustrative placeholders, not verified real businesses.
+// Real listings should be added via the Submit a Listing flow and admin verification.
+const RAW_RESTAURANTS = [
+ {name:"Sultan's Grill House", city:"Toronto", cuisine:["Turkish","BBQ"], method:"hma", price:"$$", rating:4.6, parking:true, prayer:true, late:true, takeout:true, delivery:true, dinein:true, veg:true, phone:"416-555-0142", website:"https://example.com/sultans-grill"},
+ {name:"Kabul Kabob Corner", city:"Scarborough", cuisine:["Afghan","BBQ"], method:"hand", price:"$$", rating:4.7, parking:true, prayer:false, late:false, takeout:true, delivery:true, dinein:true, veg:false, phone:"416-555-0198", website:"https://example.com/kabul-kabob"},
+ {name:"Nawab Biryani House", city:"Mississauga", cuisine:["Pakistani","Indian"], method:"hand", price:"$$", rating:4.5, parking:true, prayer:true, late:true, takeout:true, delivery:true, dinein:true, veg:true, phone:"905-555-0110", website:""},
+ {name:"Beirut Nights", city:"Mississauga", cuisine:["Lebanese","Mediterranean"], method:"owned", price:"$$$", rating:4.4, parking:true, prayer:false, late:true, takeout:true, delivery:false, dinein:true, veg:true, phone:"905-555-0223", website:"https://example.com/beirut-nights"},
+ {name:"Dhaka Spice Kitchen", city:"Brampton", cuisine:["Bangladeshi","Indian"], method:"unknown", price:"$", rating:4.2, parking:true, prayer:true, late:false, takeout:true, delivery:true, dinein:true, veg:true, phone:"905-555-0301", website:""},
+ {name:"Cairo Corner", city:"Brampton", cuisine:["Egyptian","Shawarma"], method:"hand", price:"$", rating:4.6, parking:false, prayer:false, late:true, takeout:true, delivery:true, dinein:false, veg:false, phone:"905-555-0345", website:"https://example.com/cairo-corner"},
+ {name:"Somali Delight", city:"Etobicoke", cuisine:["Somali"], method:"owned", price:"$", rating:4.3, parking:true, prayer:false, late:false, takeout:true, delivery:false, dinein:true, veg:true, phone:"416-555-0410", website:""},
+ {name:"Yemen House Mandi", city:"North York", cuisine:["Yemeni","BBQ"], method:"hand", price:"$$", rating:4.8, parking:true, prayer:true, late:false, takeout:true, delivery:true, dinein:true, veg:false, phone:"416-555-0455", website:"https://example.com/yemen-house"},
+ {name:"Istanbul Grill & Grill", city:"North York", cuisine:["Turkish","Steak"], method:"hma", price:"$$$", rating:4.5, parking:true, prayer:false, late:true, takeout:true, delivery:false, dinein:true, veg:true, phone:"416-555-0489", website:"https://example.com/istanbul-grill"},
+ {name:"Aleppo Kitchen", city:"Toronto", cuisine:["Syrian","Mediterranean"], method:"hand", price:"$$", rating:4.7, parking:false, prayer:false, late:false, takeout:true, delivery:true, dinein:true, veg:true, phone:"416-555-0512", website:""},
+ {name:"Peshawar Tikka Hut", city:"York", cuisine:["Pakistani","BBQ"], method:"hand", price:"$", rating:4.4, parking:true, prayer:true, late:true, takeout:true, delivery:true, dinein:true, veg:false, phone:"416-555-0587", website:"https://example.com/peshawar-tikka"},
+ {name:"Zabiha Zone Burgers", city:"East York", cuisine:["Burgers","Fast Food"], method:"hfsaa", price:"$", rating:4.1, parking:true, prayer:false, late:true, takeout:true, delivery:true, dinein:true, veg:true, phone:"416-555-0623", website:""},
+ {name:"Marrakesh Table", city:"Markham", cuisine:["Arab","Mediterranean"], method:"owned", price:"$$$", rating:4.6, parking:true, prayer:true, late:false, takeout:true, delivery:false, dinein:true, veg:true, phone:"905-555-0701", website:"https://example.com/marrakesh-table"},
+ {name:"Riyadh Dessert Bar", city:"Markham", cuisine:["Desserts","Arab"], method:"unknown", price:"$", rating:4.3, parking:true, prayer:false, late:true, takeout:true, delivery:true, dinein:true, veg:true, phone:"905-555-0745", website:""},
+ {name:"Golden Wok Halal", city:"Richmond Hill", cuisine:["Chinese"], method:"hfsaa", price:"$$", rating:4.0, parking:true, prayer:false, late:false, takeout:true, delivery:true, dinein:true, veg:true, phone:"905-555-0812", website:"https://example.com/golden-wok"},
+ {name:"Sakura Halal Sushi", city:"Vaughan", cuisine:["Japanese"], method:"hma", price:"$$$", rating:4.5, parking:true, prayer:false, late:false, takeout:true, delivery:false, dinein:true, veg:true, phone:"905-555-0876", website:"https://example.com/sakura-halal"},
+ {name:"Seoul Halal BBQ", city:"Vaughan", cuisine:["Korean","BBQ"], method:"unknown", price:"$$", rating:4.2, parking:true, prayer:false, late:true, takeout:true, delivery:true, dinein:true, veg:false, phone:"905-555-0899", website:""},
+ {name:"Jalapeño Halal Cantina", city:"Milton", cuisine:["Mexican"], method:"owned", price:"$$", rating:4.1, parking:true, prayer:false, late:false, takeout:true, delivery:true, dinein:true, veg:true, phone:"905-555-0933", website:""},
+ {name:"Trattoria Halal Roma", city:"Oakville", cuisine:["Italian"], method:"hand", price:"$$$", rating:4.4, parking:true, prayer:false, late:false, takeout:true, delivery:false, dinein:true, veg:true, phone:"905-555-0967", website:"https://example.com/trattoria-halal"},
+ {name:"Ankara Steakhouse", city:"Burlington", cuisine:["Turkish","Steak"], method:"hma", price:"$$$", rating:4.7, parking:true, prayer:true, late:false, takeout:false, delivery:false, dinein:true, veg:false, phone:"905-555-1001", website:"https://example.com/ankara-steak"},
+ {name:"Hamilton Halal Grill", city:"Hamilton", cuisine:["BBQ","Shawarma"], method:"hand", price:"$", rating:4.3, parking:true, prayer:false, late:true, takeout:true, delivery:true, dinein:true, veg:false, phone:"905-555-1045", website:""},
+ {name:"Whitby Kabab Express", city:"Whitby", cuisine:["Afghan","Fast Food"], method:"unknown", price:"$", rating:4.0, parking:true, prayer:false, late:false, takeout:true, delivery:true, dinein:false, veg:false, phone:"905-555-1088", website:""},
+ {name:"Ajax Shawarma Shack", city:"Ajax", cuisine:["Shawarma","Mediterranean"], method:"owned", price:"$", rating:4.5, parking:true, prayer:false, late:true, takeout:true, delivery:true, dinein:true, veg:true, phone:"905-555-1122", website:"https://example.com/ajax-shawarma"},
+ {name:"Pickering Grill Co.", city:"Pickering", cuisine:["BBQ","Steak"], method:"hma", price:"$$", rating:4.6, parking:true, prayer:true, late:false, takeout:true, delivery:false, dinein:true, veg:false, phone:"905-555-1166", website:"https://example.com/pickering-grill"},
+ {name:"Oshawa Biryani Point", city:"Oshawa", cuisine:["Indian","Pakistani"], method:"hand", price:"$", rating:4.4, parking:true, prayer:false, late:false, takeout:true, delivery:true, dinein:true, veg:true, phone:"905-555-1200", website:""}
+];
+
+const RESTAURANTS = RAW_RESTAURANTS.map((r,i)=>({
+  id:"r"+(i+1),
+  slug: slugify(r.name+"-"+r.city),
+  address: (100+i*7)+" "+["Queen St","Main St W","Bloor St","Kennedy Rd","Yonge St","Dundas St","Bayview Ave","Steeles Ave"][i%8],
+  postal: "L"+(1+i%9)+String.fromCharCode(65+i%26)+" "+(1+i%9)+String.fromCharCode(65+((i+3)%26))+"1",
+  hours: "11:00 AM – "+(r.late?"1:00 AM":"10:00 PM"),
+  instagram: r.website? "@"+slugify(r.name).replace(/-/g,'') : "",
+  facebook: r.website? "facebook.com/"+slugify(r.name) : "",
+  lastVerified: ["2026-06-02","2026-05-18","2026-06-11","2026-04-29","2026-06-20"][i%5],
+  description: "A neighbourhood favourite serving "+r.cuisine.join(" & ").toLowerCase()+" dishes in "+r.city+". Sample listing for demonstration — details should be confirmed directly with the restaurant.",
+  maps: "https://maps.google.com/?q="+encodeURIComponent(r.name+" "+r.city+" ON"),
+  emoji: ["🍽️","🥙","🍢","🍛","🥘","🍜","🍔","🍕","🍣"][i%9],
+  ...r
+}));
+
+const RAW_MASJIDS = [
+ {name:"Masjid Al-Noor", city:"Toronto", address:"210 Danforth Ave", jummah:"1:30 PM", sisters:true, wudu:true, wheelchair:true, parking:true, programs:["Quran classes","Youth halaqa","Food bank"]},
+ {name:"Islamic Centre of Scarborough", city:"Scarborough", address:"88 Kennedy Rd", jummah:"1:15 PM & 2:15 PM", sisters:true, wudu:true, wheelchair:true, parking:true, programs:["Weekend school","Sisters circle"]},
+ {name:"Masjid Al-Falah", city:"Mississauga", address:"3400 Eglinton Ave W", jummah:"1:00 PM, 1:45 PM & 2:30 PM", sisters:true, wudu:true, wheelchair:true, parking:true, programs:["Nikah services","Funeral services","Youth programs"]},
+ {name:"Brampton Islamic Centre", city:"Brampton", address:"120 Dixie Rd", jummah:"1:30 PM", sisters:true, wudu:true, wheelchair:false, parking:true, programs:["Quran memorization","Community iftars"]},
+ {name:"Masjid Al-Huda", city:"North York", address:"45 Sheppard Ave W", jummah:"1:15 PM", sisters:true, wudu:true, wheelchair:true, parking:false, programs:["New Muslim support","Marriage counselling"]},
+ {name:"Durham Islamic Centre", city:"Ajax", address:"75 Bayly St", jummah:"1:30 PM", sisters:true, wudu:true, wheelchair:true, parking:true, programs:["Eid festivals","Interfaith events"]},
+ {name:"Markham Muslim Centre", city:"Markham", address:"9200 Woodbine Ave", jummah:"1:00 PM & 2:00 PM", sisters:true, wudu:true, wheelchair:true, parking:true, programs:["Islamic school","Sports league"]},
+ {name:"Vaughan Community Masjid", city:"Vaughan", address:"3100 Rutherford Rd", jummah:"1:30 PM", sisters:false, wudu:true, wheelchair:true, parking:true, programs:["Da'wah desk","Youth mentorship"]},
+ {name:"Oakville Islamic Society", city:"Oakville", address:"2400 Trafalgar Rd", jummah:"1:15 PM", sisters:true, wudu:true, wheelchair:true, parking:true, programs:["Quran classes","Community dinners"]},
+ {name:"Hamilton Mountain Mosque", city:"Hamilton", address:"800 Upper James St", jummah:"1:30 PM", sisters:true, wudu:true, wheelchair:false, parking:true, programs:["Food bank","Youth halaqa"]}
+];
+const MASJIDS = RAW_MASJIDS.map((m,i)=>({
+  id:"m"+(i+1),
+  slug: slugify(m.name+"-"+m.city),
+  phone: "416-555-2"+String(100+i*3).slice(-3),
+  website: "https://example.com/"+slugify(m.name),
+  prayerTimes:{fajr:"5:1"+(i%9)+" AM", dhuhr:"1:2"+(i%5)+" PM", asr:"5:0"+(i%9)+" PM", maghrib:"9:0"+(i%9)+" PM", isha:"10:3"+(i%5)+" PM"},
+  lastUpdated:["2026-06-15","2026-06-20","2026-06-10"][i%3],
+  maps:"https://maps.google.com/?q="+encodeURIComponent(m.name+" "+m.city+" ON"),
+  ...m
+}));
+
+/* ---------------- STATE (in-memory only — no localStorage per platform rules) ---------------- */
+const state = {
+  route:"home",
+  params:{},
+  theme:"light",
+  user:null, // {name,email}
+  favorites:{restaurants:new Set(), masjids:new Set()},
+  recentlyViewed:[],
+  mobileMenuOpen:false,
+  submissions:[
+    {id:"s1", type:"Restaurant", name:"New Halal Wings Co.", city:"Brampton", status:"pending", submittedBy:"guest@demo.com", date:"2026-06-28"},
+    {id:"s2", type:"Masjid", name:"Milton Islamic Association", city:"Milton", status:"pending", submittedBy:"amina@demo.com", date:"2026-06-27"},
+    {id:"s3", type:"Restaurant", name:"Spice Route Grill", city:"Oshawa", status:"approved", submittedBy:"yusuf@demo.com", date:"2026-06-20"},
+    {id:"s4", type:"Restaurant", name:"Unverified Kebab House", city:"Hamilton", status:"rejected", submittedBy:"guest@demo.com", date:"2026-06-18"}
+  ],
+  filters:{ q:"", city:"", cuisine:"", methodFilters:new Set(), amenities:new Set(), sort:"rating" }
+};
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer=setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+/* ---------------- ROUTER ---------------- */
+function parseHash(){
+  const h = location.hash.slice(1) || "/home";
+  const parts = h.split("/").filter(Boolean);
+  return parts;
+}
+window.addEventListener('hashchange', ()=>{route(); window.scrollTo(0,0);});
+
+function route(){
+  const parts = parseHash();
+  state.route = parts[0]||"home";
+  state.params = {slug: parts[1]};
+  render();
+}
+
+function go(path){ location.hash = path; }
+
+/* ---------------- BADGE HELPERS ---------------- */
+function methodBadge(methodKey){
+  const m = METHODS[methodKey] || METHODS.unknown;
+  return `<span class="badge ${m.cls}">${m.dot} ${m.label}</span>`;
+}
+
+function amenityBadges(r){
+  let out = "";
+  if(r.prayer) out += `<span class="pill">🕌 Prayer space</span>`;
+  if(r.parking) out += `<span class="pill">🅿️ Parking</span>`;
+  if(r.delivery) out += `<span class="pill">🛵 Delivery</span>`;
+  return out;
+}
+
+/* ---------------- LAYOUT ---------------- */
+function headerHTML(){
+  const links = [
+    ["home","Home"], ["restaurants","Restaurants"], ["masjids","Masjids"],
+    ["submit","Submit a Listing"], ["travel","Travel Mode"], ["cities","Cities"],
+    ["about","About"], ["contact","Contact"]
+  ];
+  return `
+  <header class="site">
+    <div class="nav-row">
+      <div class="brand" onclick="go('home')">
+        <div class="brand-mark">☾</div>
+        Halal Near Me
+      </div>
+      <nav class="nav-links">
+        ${links.map(([r,label])=>`<a onclick="go('${r}')" class="${state.route===r?'active':''}">${label}</a>`).join("")}
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" title="Toggle dark mode" onclick="toggleTheme()">${state.theme==='light'?'🌙':'☀️'}</button>
+        <button class="icon-btn" title="Dashboard" onclick="go('dashboard')">👤</button>
+        <button class="btn btn-primary btn-sm" onclick="go('admin')">Admin</button>
+        <button class="hamburger" onclick="toggleMobileMenu()">☰</button>
+      </div>
+    </div>
+    <div class="mobile-menu ${state.mobileMenuOpen?'open':''}">
+      ${links.map(([r,label])=>`<a onclick="go('${r}');toggleMobileMenu()">${label}</a>`).join("")}
+    </div>
+  </header>`;
+}
+function toggleMobileMenu(){ state.mobileMenuOpen=!state.mobileMenuOpen; render(); }
+function toggleTheme(){
+  state.theme = state.theme==='light' ? 'dark':'light';
+  document.documentElement.setAttribute('data-theme', state.theme==='dark'?'dark':'light');
+  render();
+}
+
+function footerHTML(){
+  return `
+  <footer class="site">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="brand" style="color:#fff;margin-bottom:12px;">
+            <div class="brand-mark">☾</div> Halal Near Me
+          </div>
+          <p style="color:#9FAEA7;max-width:280px;">Helping Muslims across the GTA quickly find halal restaurants, masjids, and Muslim-friendly places — expanding across Canada and the U.S. next.</p>
+        </div>
+        <div>
+          <h5>Explore</h5>
+          <a onclick="go('restaurants')">Restaurants</a>
+          <a onclick="go('masjids')">Masjids</a>
+          <a onclick="go('cities')">Cities</a>
+          <a onclick="go('travel')">Travel Mode</a>
+        </div>
+        <div>
+          <h5>Halal Method</h5>
+          ${Object.entries(METHODS).filter(([k])=>k!=='unknown').map(([k,m])=>`<a onclick="go('method/${m.slug}')">${m.dot} ${m.label}</a>`).join("")}
+        </div>
+        <div>
+          <h5>Company</h5>
+          <a onclick="go('about')">About Us</a>
+          <a onclick="go('contact')">Contact</a>
+          <a onclick="go('submit')">Submit a Listing</a>
+          <a onclick="go('admin')">Admin Dashboard</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="wrap" style="display:flex;justify-content:space-between;width:100%;flex-wrap:wrap;gap:8px;">
+        <span>© 2026 Halal Near Me. Sample MVP build — GTA Phase 1.</span>
+        <span>416-455-9706 · info@halalnearme.ca</span>
+      </div>
+    </div>
+  </footer>`;
+}
+
+const DISCLAIMER = `<div class="disclaimer">⚠️ <span><strong>Halal status may change over time.</strong> Please confirm directly with the restaurant before ordering.</span></div>`;
+
+/* ---------------- PAGE: HOME ---------------- */
+function pageHome(){
+  const featuredR = [...RESTAURANTS].sort((a,b)=>b.rating-a.rating).slice(0,4);
+  const featuredM = MASJIDS.slice(0,4);
+  const recent = [...RESTAURANTS].sort((a,b)=>b.lastVerified.localeCompare(a.lastVerified)).slice(0,4);
+  const popularCities = CITIES.slice(0,10);
+
+  return `
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow" style="color:#E9CE87;">GTA · Phase 1</div>
+      <h1>Find Halal Food and Prayer Spaces Across the GTA</h1>
+      <p class="lead">Discover halal restaurants, masjids, and Muslim-friendly places near you.</p>
+      <div class="hero-cta">
+        <button class="btn btn-gold" onclick="go('restaurants')">Find Halal Food Near You</button>
+        <button class="btn btn-outline" style="border-color:#3E564B;color:#fff;" onclick="go('masjids')">Find a Masjid</button>
+        <button class="btn btn-outline" style="border-color:#3E564B;color:#fff;" onclick="go('submit')">Submit a Listing</button>
+      </div>
+      <div class="search-bar">
+        <input id="homeSearch" type="text" placeholder="Search restaurants, cuisines, or cities...">
+        <select id="homeCity"><option value="">All cities</option>${CITIES.map(c=>`<option>${c}</option>`).join("")}</select>
+        <button class="btn btn-primary" onclick="homeSearchGo()">Search</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><b>${RESTAURANTS.length}+</b><span>Halal Restaurants</span></div>
+        <div class="hero-stat"><b>${MASJIDS.length}+</b><span>Masjids Listed</span></div>
+        <div class="hero-stat"><b>${CITIES.length}</b><span>GTA Cities</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="banner-note">📌 <strong>Demo data notice:</strong> Listings shown are sample data seeded for this MVP demonstration. Real listings are added through verified community submissions and admin review.</div>
+  </div>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <div><h2>Featured Restaurants</h2><p class="section-sub">Top-rated halal spots trending across the GTA this week.</p></div>
+      <button class="btn btn-outline" onclick="go('restaurants')">View all →</button>
+    </div>
+    <div class="grid grid-4">${featuredR.map(restaurantCard).join("")}</div>
+  </section>
+
+  <section class="section wrap" style="padding-top:0;">
+    <div class="section-head">
+      <div><h2>Featured Masjids</h2><p class="section-sub">Community masjids with prayer times and facility info.</p></div>
+      <button class="btn btn-outline" onclick="go('masjids')">View all →</button>
+    </div>
+    <div class="grid grid-4">${featuredM.map(masjidCard).join("")}</div>
+  </section>
+
+  <section class="section wrap" style="padding-top:0;">
+    <div class="section-head"><div><h2>Recently Added Listings</h2><p class="section-sub">Fresh submissions verified by our admin team.</p></div></div>
+    <div class="grid grid-4">${recent.map(restaurantCard).join("")}</div>
+  </section>
+
+  <section class="section wrap" style="padding-top:0;">
+    <div class="section-head"><div><h2>Popular Cities</h2></div></div>
+    <div class="grid grid-4">
+      ${popularCities.map(c=>`<div class="city-pill" style="cursor:pointer;" onclick="filterByCity('${c}')">${c}<div style="font-size:12px;color:var(--ink-soft);font-weight:400;margin-top:4px;">${RESTAURANTS.filter(r=>r.city===c).length} restaurants</div></div>`).join("")}
+    </div>
+  </section>
+
+  <section class="section wrap" style="padding-top:0;">
+    <div class="section-head"><div><h2>Why Use Halal Near Me</h2></div></div>
+    <div class="grid grid-4">
+      <div class="why-card"><div class="ic">✅</div><h4>Verified Halal Methods</h4><p>Clear badges for hand-slaughtered, machine-slaughtered, HMA, and HFSAA certification — never guessed.</p></div>
+      <div class="why-card"><div class="ic">🕌</div><h4>Masjid Finder</h4><p>Prayer times, Jummah schedules, and facility details in one place.</p></div>
+      <div class="why-card"><div class="ic">📍</div><h4>Built for the GTA</h4><p>Hyper-local coverage across 19+ cities, expanding across Canada & the U.S.</p></div>
+      <div class="why-card"><div class="ic">🤝</div><h4>Community Powered</h4><p>Submit listings and corrections — every entry is admin-reviewed before publishing.</p></div>
+    </div>
+  </section>
+
+  <section class="section wrap" style="padding-top:0;">
+    <div class="section-head"><div><h2>Future Features</h2><p class="section-sub">Coming soon to Halal Near Me.</p></div></div>
+    <div class="grid grid-3">
+      <div class="why-card"><div class="ic">🧭</div><h4>Travel Mode</h4><p>Plan road trips with halal stops, nearby masjids, and hotels near masjids along your route.</p></div>
+      <div class="why-card"><div class="ic">🏙️</div><h4>Muslim-Friendly City Guide</h4><p>City rankings by halal restaurants, masjids, Islamic schools, and community events.</p></div>
+      <div class="why-card"><div class="ic">🎉</div><h4>Community Events</h4><p>Eid festivals, lectures, conferences, fundraisers, and community dinners near you.</p></div>
+    </div>
+  </section>
+
+  <section class="section wrap" style="padding-top:0;">
+    <div class="section-head"><div><h2>Testimonials</h2></div></div>
+    <div class="grid grid-3">
+      <div class="testi-card"><p>"Finally an app that tells me exactly how a place is halal instead of just saying 'halal' with no details."</p><div class="testi-author">— Amina R., Mississauga</div></div>
+      <div class="testi-card"><p>"Found a masjid with a sisters' area near my new office in Markham within two minutes."</p><div class="testi-author">— Sara K., Markham</div></div>
+      <div class="testi-card"><p>"Love that I can filter by hand-slaughtered specifically. Exactly what our community needed."</p><div class="testi-author">— Bilal H., Scarborough</div></div>
+    </div>
+  </section>
+
+  <section class="section wrap" style="padding-top:0;padding-bottom:80px;">
+    <div class="why-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;background:var(--forest);border:none;">
+      <div>
+        <h4 style="color:#fff;">Download App — Coming Soon</h4>
+        <p style="color:#D9E2DC;">Take Halal Near Me with you. iOS & Android apps launching after GTA Phase 1.</p>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-gold" disabled style="opacity:.85;">📱 App Store</button>
+        <button class="btn btn-outline" style="border-color:#3E564B;color:#fff;" disabled>▶ Google Play</button>
+      </div>
+    </div>
+  </section>
+  `;
+}
+function homeSearchGo(){
+  const q = document.getElementById('homeSearch').value;
+  const city = document.getElementById('homeCity').value;
+  state.filters.q = q; state.filters.city = city;
+  go('restaurants');
+}
+function filterByCity(c){ state.filters.city=c; go('restaurants'); }
+
+/* ---------------- CARDS ---------------- */
+function restaurantCard(r){
+  const fav = state.favorites.restaurants.has(r.id);
+  return `
+  <div class="card">
+    <div class="card-media" onclick="viewRestaurant('${r.slug}')" style="cursor:pointer;">
+      ${r.emoji}
+      <div class="fav" onclick="event.stopPropagation();toggleFav('restaurants','${r.id}')">${fav?'❤️':'🤍'}</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title-row">
+        <h4 style="cursor:pointer;" onclick="viewRestaurant('${r.slug}')">${r.name}</h4>
+        <span class="rating">★ ${r.rating}</span>
+      </div>
+      <div class="card-meta">${r.city} · ${r.price} · ${r.cuisine.join(", ")}</div>
+      <div class="badge-row">${methodBadge(r.method)}</div>
+      <div class="badge-row">${amenityBadges(r)}</div>
+      <div class="card-foot">
+        <button class="btn btn-outline btn-sm" style="flex:1;" onclick="viewRestaurant('${r.slug}')">View Details</button>
+        <button class="icon-btn" title="Directions" onclick="window.open('${r.maps}','_blank')">🧭</button>
+      </div>
+    </div>
+  </div>`;
+}
+function masjidCard(m){
+  const fav = state.favorites.masjids.has(m.id);
+  return `
+  <div class="card">
+    <div class="card-media" style="background:linear-gradient(135deg,var(--forest-tint),var(--navy) 220%);cursor:pointer;" onclick="viewMasjid('${m.slug}')">
+      🕌
+      <div class="fav" onclick="event.stopPropagation();toggleFav('masjids','${m.id}')">${fav?'❤️':'🤍'}</div>
+    </div>
+    <div class="card-body">
+      <h4 style="cursor:pointer;" onclick="viewMasjid('${m.slug}')">${m.name}</h4>
+      <div class="card-meta">${m.city}</div>
+      <div class="badge-row">
+        <span class="pill">Jummah ${m.jummah}</span>
+        ${m.sisters?'<span class="pill">👩 Sisters area</span>':''}
+        ${m.wheelchair?'<span class="pill">♿ Accessible</span>':''}
+      </div>
+      <div class="card-foot">
+        <button class="btn btn-outline btn-sm" style="flex:1;" onclick="viewMasjid('${m.slug}')">View Details</button>
+        <button class="icon-btn" title="Directions" onclick="window.open('${m.maps}','_blank')">🧭</button>
+      </div>
+    </div>
+  </div>`;
+}
+function toggleFav(type,id){
+  const s = state.favorites[type];
+  if(s.has(id)){s.delete(id);toast("Removed from favorites");} else {s.add(id);toast("Saved to favorites");}
+  render();
+}
+function viewRestaurant(slug){
+  const r = RESTAURANTS.find(x=>x.slug===slug);
+  if(r){ state.recentlyViewed = [r.id, ...state.recentlyViewed.filter(id=>id!==r.id)].slice(0,8); }
+  go('restaurant/'+slug);
+}
+function viewMasjid(slug){
+  const m = MASJIDS.find(x=>x.slug===slug);
+  if(m){ state.recentlyViewed = [m.id, ...state.recentlyViewed.filter(id=>id!==m.id)].slice(0,8); }
+  go('masjid/'+slug);
+}
+
+/* ---------------- PAGE: RESTAURANT DIRECTORY ---------------- */
+function pageRestaurants(presetMethod){
+  const f = state.filters;
+  let list = RESTAURANTS.filter(r=>{
+    if(presetMethod && r.method!==presetMethod) return false;
+    if(f.q && !(r.name.toLowerCase().includes(f.q.toLowerCase()) || r.cuisine.join(" ").toLowerCase().includes(f.q.toLowerCase()))) return false;
+    if(f.city && r.city!==f.city) return false;
+    if(f.cuisine && !r.cuisine.includes(f.cuisine)) return false;
+    if(f.methodFilters.size && !f.methodFilters.has(r.method)) return false;
+    if(f.amenities.has('prayer') && !r.prayer) return false;
+    if(f.amenities.has('parking') && !r.parking) return false;
+    if(f.amenities.has('delivery') && !r.delivery) return false;
+    if(f.amenities.has('takeout') && !r.takeout) return false;
+    if(f.amenities.has('dinein') && !r.dinein) return false;
+    if(f.amenities.has('late') && !r.late) return false;
+    if(f.amenities.has('veg') && !r.veg) return false;
+    return true;
+  });
+  if(f.sort==='rating') list.sort((a,b)=>b.rating-a.rating);
+  if(f.sort==='name') list.sort((a,b)=>a.name.localeCompare(b.name));
+  if(f.sort==='recent') list.sort((a,b)=>b.lastVerified.localeCompare(a.lastVerified));
+
+  const methodMeta = presetMethod ? METHODS[presetMethod] : null;
+
+  const activeChips = [];
+  if(f.city) activeChips.push(['city', f.city]);
+  if(f.cuisine) activeChips.push(['cuisine', f.cuisine]);
+  if(f.q) activeChips.push(['q', f.q]);
+  f.methodFilters.forEach(m=>activeChips.push(['method', METHODS[m].label]));
+  f.amenities.forEach(a=>activeChips.push(['amenity', a]));
+
+  return `
+  <section class="section wrap">
+    ${methodMeta ? `
+      <div class="eyebrow">Dedicated Halal-Method Page</div>
+      <h2 style="margin:8px 0 6px;">${methodMeta.dot} ${methodMeta.label} Restaurants in the GTA</h2>
+      <p class="section-sub" style="margin-bottom:20px;max-width:680px;">Browse GTA restaurants tagged as ${methodMeta.label.toLowerCase()}. Filter further by city or cuisine below. ${DISCLAIMER}</p>
+    ` : `
+      <div class="section-head"><div><h2>Halal Restaurant Directory</h2><p class="section-sub">Search by name, city, cuisine, distance, or rating.</p></div></div>
+    `}
+
+    <div class="directory-layout">
+      <aside class="filter-panel">
+        <div class="filter-group">
+          <h5>Search</h5>
+          <input class="text-field" placeholder="Restaurant or cuisine..." value="${f.q}" oninput="setFilter('q', this.value)">
+        </div>
+        <div class="filter-group">
+          <h5>City</h5>
+          <select class="select-field" onchange="setFilter('city', this.value)">
+            <option value="">All cities</option>
+            ${CITIES.map(c=>`<option ${f.city===c?'selected':''}>${c}</option>`).join("")}
+          </select>
+        </div>
+        <div class="filter-group">
+          <h5>Cuisine</h5>
+          <select class="select-field" onchange="setFilter('cuisine', this.value)">
+            <option value="">All cuisines</option>
+            ${CUISINES.map(c=>`<option ${f.cuisine===c?'selected':''}>${c}</option>`).join("")}
+          </select>
+        </div>
+        <div class="filter-group">
+          <h5>Halal Method</h5>
+          ${Object.entries(METHODS).map(([k,m])=>`
+            <label class="check-row"><input type="checkbox" ${f.methodFilters.has(k)?'checked':''} onchange="toggleSetFilter('methodFilters','${k}')"> ${m.dot} ${m.label}</label>
+          `).join("")}
+        </div>
+        <div class="filter-group">
+          <h5>Amenities</h5>
+          ${[['prayer','Prayer space available'],['parking','Parking'],['delivery','Delivery'],['takeout','Takeout'],['dinein','Dine-in'],['late','Open late'],['veg','Vegetarian options']].map(([k,l])=>`
+            <label class="check-row"><input type="checkbox" ${f.amenities.has(k)?'checked':''} onchange="toggleSetFilter('amenities','${k}')"> ${l}</label>
+          `).join("")}
+        </div>
+        <button class="btn btn-outline btn-block" onclick="clearFilters()">Clear all filters</button>
+      </aside>
+
+      <div>
+        <div class="toolbar">
+          <span class="count">${list.length} result${list.length!==1?'s':''}</span>
+          <select class="select-field" style="width:auto;" onchange="setFilter('sort', this.value)">
+            <option value="rating" ${f.sort==='rating'?'selected':''}>Sort: Highest Rated</option>
+            <option value="name" ${f.sort==='name'?'selected':''}>Sort: Name A–Z</option>
+            <option value="recent" ${f.sort==='recent'?'selected':''}>Sort: Recently Verified</option>
+          </select>
+        </div>
+        ${activeChips.length? `<div class="chip-row">${activeChips.map(([type,label])=>`<span class="chip">${label}<button onclick="removeChip('${type}','${label}')">✕</button></span>`).join("")}</div>`:""}
+        ${list.length ? `<div class="grid grid-3">${list.map(restaurantCard).join("")}</div>` : `
+          <div class="empty-state"><h4>No restaurants match your filters</h4><p>Try clearing a filter or search a different city. Know a place we're missing?</p>
+          <button class="btn btn-primary" style="margin-top:14px;" onclick="go('submit')">Submit a Listing</button></div>`}
+      </div>
+    </div>
+  </section>`;
+}
+function setFilter(key,val){ state.filters[key]=val; render(); }
+function toggleSetFilter(key,val){
+  const s = state.filters[key];
+  s.has(val)? s.delete(val): s.add(val);
+  render();
+}
+function clearFilters(){
+  state.filters = { q:"", city:"", cuisine:"", methodFilters:new Set(), amenities:new Set(), sort:"rating" };
+  render();
+}
+function removeChip(type,label){
+  if(type==='city') state.filters.city="";
+  if(type==='cuisine') state.filters.cuisine="";
+  if(type==='q') state.filters.q="";
+  if(type==='method'){ const k=Object.keys(METHODS).find(k=>METHODS[k].label===label); state.filters.methodFilters.delete(k); }
+  if(type==='amenity') state.filters.amenities.delete(label);
+  render();
+}
+
+/* ---------------- PAGE: RESTAURANT DETAIL ---------------- */
+function pageRestaurantDetail(slug){
+  const r = RESTAURANTS.find(x=>x.slug===slug);
+  if(!r) return `<div class="wrap section"><h2>Listing not found</h2><button class="btn btn-primary" onclick="go('restaurants')">Back to Directory</button></div>`;
+  const fav = state.favorites.restaurants.has(r.id);
+  const similar = RESTAURANTS.filter(x=>x.city===r.city && x.id!==r.id).slice(0,3);
+  return `
+  <section class="wrap section">
+    <div class="eyebrow" style="cursor:pointer;" onclick="go('restaurants')">← Back to Directory</div>
+    <div class="detail-hero" style="margin-top:14px;">
+      <div class="detail-icon">${r.emoji}</div>
+      <div style="flex:1;min-width:220px;">
+        <h1 style="font-size:30px;">${r.name}</h1>
+        <p style="margin-top:6px;">${r.address}, ${r.city}, ON ${r.postal}</p>
+        <div class="badge-row" style="margin-top:10px;">${methodBadge(r.method)} ${r.cuisine.map(c=>`<span class="badge badge-cuisine">${c}</span>`).join("")}</div>
+        <div class="detail-actions">
+          <button class="btn btn-primary" onclick="window.open('${r.maps}','_blank')">🧭 Directions</button>
+          <button class="btn btn-outline" onclick="window.open('tel:${r.phone}')">📞 Call ${r.phone}</button>
+          ${r.website?`<button class="btn btn-outline" onclick="window.open('${r.website}','_blank')">🌐 Website</button>`:`<button class="btn btn-outline" onclick="window.open('${r.maps}','_blank')">🌐 View on Google Maps</button>`}
+          <button class="btn btn-outline" onclick="toggleFav('restaurants','${r.id}');go('restaurant/${slug}')">${fav?'❤️ Saved':'🤍 Save'}</button>
+          <button class="btn btn-ghost" onclick="go('submit')">🚩 Submit correction</button>
+        </div>
+      </div>
+      <div class="mono" style="text-align:right;font-size:13px;color:var(--ink-soft);">★ ${r.rating} rating<br>${r.price} price range</div>
+    </div>
+
+    ${DISCLAIMER}
+
+    <div class="info-grid" style="margin-top:24px;">
+      <div>
+        <div class="info-block">
+          <h4>About</h4>
+          <p>${r.description}</p>
+        </div>
+        <div class="info-block">
+          <h4>Details</h4>
+          <div class="kv-row"><span>Hours</span><span>${r.hours}</span></div>
+          <div class="kv-row"><span>Cuisine</span><span>${r.cuisine.join(", ")}</span></div>
+          <div class="kv-row"><span>Parking</span><span>${r.parking?'Available':'Not available'}</span></div>
+          <div class="kv-row"><span>Prayer space</span><span>${r.prayer?'Available':'Not confirmed'}</span></div>
+          <div class="kv-row"><span>Takeout / Delivery / Dine-in</span><span>${[r.takeout&&'Takeout',r.delivery&&'Delivery',r.dinein&&'Dine-in'].filter(Boolean).join(' · ')||'—'}</span></div>
+          <div class="kv-row"><span>Vegetarian options</span><span>${r.veg?'Yes':'Limited/Unknown'}</span></div>
+          <div class="kv-row"><span>Last verified</span><span class="mono">${r.lastVerified}</span></div>
+        </div>
+        <div class="info-block">
+          <h4>Reviews</h4>
+          <p style="margin-bottom:10px;">Community reviews coming soon. Signed-in users will be able to leave star ratings and written reviews.</p>
+          <button class="btn btn-outline btn-sm" onclick="toast('Sign in to leave a review')">✍️ Leave a review</button>
+        </div>
+      </div>
+      <div>
+        <div class="info-block">
+          <h4>Contact</h4>
+          <div class="kv-row"><span>Phone</span><span>${r.phone}</span></div>
+          <div class="kv-row"><span>Website</span><span>${r.website?'Available':'Not provided'}</span></div>
+          <div class="kv-row"><span>Instagram</span><span>${r.instagram||'—'}</span></div>
+          <div class="kv-row"><span>Facebook</span><span>${r.facebook||'—'}</span></div>
+        </div>
+        <div class="info-block">
+          <h4>Halal Method</h4>
+          <div class="badge-row">${methodBadge(r.method)}</div>
+          <p style="margin-top:10px;font-size:13px;">Method reflects the most recent information provided by this business or verified by our team. Always confirm directly.</p>
+        </div>
+        ${similar.length?`<div class="info-block"><h4>More in ${r.city}</h4>${similar.map(s=>`<div class="kv-row" style="cursor:pointer;" onclick="viewRestaurant('${s.slug}')"><span>${s.name}</span><span>★ ${s.rating}</span></div>`).join("")}</div>`:""}
+      </div>
+    </div>
+  </section>`;
+}
+
+/* ---------------- PAGE: MASJID DIRECTORY ---------------- */
+function pageMasjids(){
+  const f = state.filters;
+  let list = MASJIDS.filter(m=>{
+    if(f.q && !m.name.toLowerCase().includes(f.q.toLowerCase())) return false;
+    if(f.city && m.city!==f.city) return false;
+    return true;
+  });
+  return `
+  <section class="section wrap">
+    <div class="section-head"><div><h2>Masjid Directory</h2><p class="section-sub">Prayer times, Jummah schedules, and facility details across the GTA.</p></div></div>
+    <div class="directory-layout">
+      <aside class="filter-panel">
+        <div class="filter-group"><h5>Search</h5><input class="text-field" placeholder="Masjid name..." value="${f.q}" oninput="setFilter('q', this.value)"></div>
+        <div class="filter-group">
+          <h5>City</h5>
+          <select class="select-field" onchange="setFilter('city', this.value)">
+            <option value="">All cities</option>
+            ${CITIES.map(c=>`<option ${f.city===c?'selected':''}>${c}</option>`).join("")}
+          </select>
+        </div>
+        <button class="btn btn-outline btn-block" onclick="clearFilters()">Clear all filters</button>
+      </aside>
+      <div>
+        <div class="toolbar"><span class="count">${list.length} masjid${list.length!==1?'s':''}</span></div>
+        ${list.length? `<div class="grid grid-3">${list.map(masjidCard).join("")}</div>` : `<div class="empty-state"><h4>No masjids match your filters</h4><p>Try a different city.</p></div>`}
+      </div>
+    </div>
+  </section>`;
+}
+
+/* ---------------- PAGE: MASJID DETAIL ---------------- */
+function pageMasjidDetail(slug){
+  const m = MASJIDS.find(x=>x.slug===slug);
+  if(!m) return `<div class="wrap section"><h2>Listing not found</h2><button class="btn btn-primary" onclick="go('masjids')">Back to Directory</button></div>`;
+  const fav = state.favorites.masjids.has(m.id);
+  return `
+  <section class="wrap section">
+    <div class="eyebrow" style="cursor:pointer;" onclick="go('masjids')">← Back to Directory</div>
+    <div class="detail-hero" style="margin-top:14px;background:linear-gradient(135deg,var(--forest-tint),var(--white));">
+      <div class="detail-icon">🕌</div>
+      <div style="flex:1;min-width:220px;">
+        <h1 style="font-size:30px;">${m.name}</h1>
+        <p style="margin-top:6px;">${m.address}, ${m.city}, ON</p>
+        <div class="detail-actions">
+          <button class="btn btn-primary" onclick="window.open('${m.maps}','_blank')">🧭 Directions</button>
+          <button class="btn btn-outline" onclick="window.open('tel:${m.phone}')">📞 Call</button>
+          <button class="btn btn-outline" onclick="window.open('${m.website}','_blank')">🌐 Website</button>
+          <button class="btn btn-outline" onclick="toggleFav('masjids','${m.id}');go('masjid/${slug}')">${fav?'❤️ Saved':'🤍 Save'}</button>
+          <button class="btn btn-ghost" onclick="go('submit')">🚩 Submit correction</button>
+        </div>
+      </div>
+    </div>
+    <div class="info-grid">
+      <div>
+        <div class="info-block">
+          <h4>Prayer Times</h4>
+          <div class="kv-row"><span>Fajr</span><span class="mono">${m.prayerTimes.fajr}</span></div>
+          <div class="kv-row"><span>Dhuhr</span><span class="mono">${m.prayerTimes.dhuhr}</span></div>
+          <div class="kv-row"><span>Asr</span><span class="mono">${m.prayerTimes.asr}</span></div>
+          <div class="kv-row"><span>Maghrib</span><span class="mono">${m.prayerTimes.maghrib}</span></div>
+          <div class="kv-row"><span>Isha</span><span class="mono">${m.prayerTimes.isha}</span></div>
+          <div class="kv-row"><span>Jummah</span><span class="mono">${m.jummah}</span></div>
+        </div>
+        <div class="info-block">
+          <h4>Community Programs</h4>
+          <div class="badge-row">${m.programs.map(p=>`<span class="badge badge-cuisine">${p}</span>`).join("")}</div>
+        </div>
+      </div>
+      <div>
+        <div class="info-block">
+          <h4>Facilities</h4>
+          <div class="kv-row"><span>Parking</span><span>${m.parking?'Available':'Not available'}</span></div>
+          <div class="kv-row"><span>Sisters' prayer area</span><span>${m.sisters?'Available':'Not confirmed'}</span></div>
+          <div class="kv-row"><span>Wudu facilities</span><span>${m.wudu?'Available':'Not confirmed'}</span></div>
+          <div class="kv-row"><span>Wheelchair accessible</span><span>${m.wheelchair?'Yes':'Not confirmed'}</span></div>
+          <div class="kv-row"><span>Last updated</span><span class="mono">${m.lastUpdated}</span></div>
+        </div>
+        <div class="info-block">
+          <h4>Contact</h4>
+          <div class="kv-row"><span>Phone</span><span>${m.phone}</span></div>
+          <div class="kv-row"><span>Website</span><span>Available</span></div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+/* ---------------- PAGE: SUBMIT LISTING ---------------- */
+function pageSubmit(){
+  return `
+  <section class="wrap section">
+    <div class="eyebrow">Community Submission</div>
+    <h2 style="margin:8px 0 6px;">Submit a Listing</h2>
+    <p class="section-sub" style="margin-bottom:26px;max-width:600px;">Know a halal restaurant or masjid we're missing? Submit it below. Every submission is reviewed by our admin team before it goes live.</p>
+    <form class="form-card" onsubmit="submitListing(event)">
+      <div class="form-row">
+        <label>Listing type</label>
+        <div class="radio-tile-row">
+          <div class="radio-tile active" data-type="Restaurant" onclick="selectType(this)">🍽️ Restaurant</div>
+          <div class="radio-tile" data-type="Masjid" onclick="selectType(this)">🕌 Masjid</div>
+        </div>
+      </div>
+      <div class="form-row"><label>Name</label><input class="text-field" name="name" required placeholder="e.g. Tahini's Kitchen"></div>
+      <div class="form-2col">
+        <div class="form-row"><label>City</label>
+          <select class="select-field" name="city" required><option value="">Select city</option>${CITIES.map(c=>`<option>${c}</option>`).join("")}</select>
+        </div>
+        <div class="form-row"><label>Address</label><input class="text-field" name="address" required placeholder="Street address"></div>
+      </div>
+      <div class="form-2col">
+        <div class="form-row"><label>Phone number</label><input class="text-field" name="phone" placeholder="416-555-0000"></div>
+        <div class="form-row"><label>Website (optional)</label><input class="text-field" name="website" placeholder="https://"></div>
+      </div>
+      <div class="form-row"><label>Halal method (restaurants only)</label>
+        <select class="select-field" name="method"><option value="unknown">Not sure / confirm before ordering</option>${Object.entries(METHODS).filter(([k])=>k!=='unknown').map(([k,m])=>`<option value="${k}">${m.label}</option>`).join("")}</select>
+      </div>
+      <div class="form-row"><label>Additional notes</label><textarea name="notes" rows="4" placeholder="Anything else we should know? Certification proof link, hours, etc."></textarea></div>
+      <div class="form-row"><label>Your email</label><input class="text-field" type="email" name="email" required placeholder="you@example.com"></div>
+      <button class="btn btn-primary btn-block" type="submit">Submit for Review</button>
+      <p style="font-size:12.5px;margin-top:10px;">By submitting, you confirm this information is accurate to your knowledge. Our team verifies details before publishing.</p>
+    </form>
+  </section>`;
+}
+function selectType(el){
+  document.querySelectorAll('.radio-tile').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+function submitListing(e){
+  e.preventDefault();
+  const f = new FormData(e.target);
+  const type = document.querySelector('.radio-tile.active').dataset.type;
+  state.submissions.unshift({
+    id:'s'+(state.submissions.length+1),
+    type, name:f.get('name'), city:f.get('city'), status:'pending',
+    submittedBy:f.get('email'), date: new Date().toISOString().slice(0,10)
+  });
+  toast("Submitted! Your listing is now pending admin review.");
+  go('dashboard');
+}
+
+/* ---------------- PAGE: ABOUT ---------------- */
+function pageAbout(){
+  return `
+  <section class="wrap section">
+    <div class="eyebrow">Our Story</div>
+    <h2 style="margin:8px 0 16px;max-width:600px;">Built by the community, for the community.</h2>
+    <div class="info-grid">
+      <div>
+        <div class="info-block">
+          <h4>Our Mission</h4>
+          <p>Halal Near Me exists to help Muslims quickly and confidently find halal restaurants, masjids, and Muslim-friendly places — starting with the Greater Toronto Area and expanding across Canada and the United States.</p>
+        </div>
+        <div class="info-block">
+          <h4>Why We're Different</h4>
+          <p>We don't just say "halal." We tell you <em>how</em>: hand-slaughtered, machine-slaughtered, HMA certified, HFSAA certified, or Muslim-owned — so you can make informed choices, every time.</p>
+        </div>
+        <div class="info-block">
+          <h4>Where We're Headed</h4>
+          <p>Phase 1 covers 19+ GTA cities. Next: Travel Mode for halal road trips, a Muslim-friendly city guide, and community events — followed by nationwide expansion across Canada and the U.S.</p>
+        </div>
+      </div>
+      <div class="info-block">
+        <h4>By the Numbers</h4>
+        <div class="kv-row"><span>Restaurants listed</span><span>${RESTAURANTS.length}+</span></div>
+        <div class="kv-row"><span>Masjids listed</span><span>${MASJIDS.length}+</span></div>
+        <div class="kv-row"><span>Cities covered</span><span>${CITIES.length}</span></div>
+        <div class="kv-row"><span>Halal method categories</span><span>${Object.keys(METHODS).length-1}</span></div>
+      </div>
+    </div>
+  </section>`;
+}
+
+/* ---------------- PAGE: CONTACT ---------------- */
+function pageContact(){
+  return `
+  <section class="wrap section">
+    <div class="eyebrow">Get In Touch</div>
+    <h2 style="margin:8px 0 20px;">Contact Us</h2>
+    <div class="info-grid">
+      <form class="form-card" onsubmit="submitContact(event)">
+        <div class="form-row"><label>Name</label><input class="text-field" required></div>
+        <div class="form-row"><label>Email</label><input class="text-field" type="email" required></div>
+        <div class="form-row"><label>Message</label><textarea rows="5" required placeholder="How can we help?"></textarea></div>
+        <button class="btn btn-primary btn-block" type="submit">Send Message</button>
+      </form>
+      <div>
+        <div class="info-block">
+          <h4>Business Info</h4>
+          <div class="kv-row"><span>Phone</span><span>416-455-9706</span></div>
+          <div class="kv-row"><span>Email</span><span>info@halalnearme.ca</span></div>
+          <div class="kv-row"><span>Coverage</span><span>Greater Toronto Area</span></div>
+        </div>
+        <div class="info-block">
+          <h4>Follow Us</h4>
+          <div class="badge-row">
+            <span class="pill">Instagram (coming soon)</span>
+            <span class="pill">Facebook (coming soon)</span>
+            <span class="pill">TikTok (coming soon)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+function submitContact(e){ e.preventDefault(); toast("Message sent — we'll reply within 1–2 business days."); e.target.reset(); }
+
+/* ---------------- PAGE: COMING SOON (Travel / Cities) ---------------- */
+function pageComingSoon(title, desc, icon){
+  return `
+  <section class="wrap section" style="text-align:center;padding-top:90px;padding-bottom:90px;">
+    <div style="font-size:56px;">${icon}</div>
+    <h2 style="margin:16px 0 10px;">${title}</h2>
+    <p style="max-width:480px;margin:0 auto 24px;">${desc}</p>
+    <span class="badge badge-hma" style="font-size:13px;padding:7px 16px;">🚧 Coming Soon</span>
+    <div style="margin-top:26px;"><button class="btn btn-primary" onclick="go('restaurants')">Browse Restaurants Instead</button></div>
+  </section>`;
+}
+
+/* ---------------- PAGE: USER DASHBOARD ---------------- */
+function pageDashboard(){
+  const favR = RESTAURANTS.filter(r=>state.favorites.restaurants.has(r.id));
+  const favM = MASJIDS.filter(m=>state.favorites.masjids.has(m.id));
+  const recent = state.recentlyViewed.map(id=>RESTAURANTS.find(r=>r.id===id)||MASJIDS.find(m=>m.id===id)).filter(Boolean);
+  const mySubs = state.submissions.filter(s=>s.submittedBy===(state.user?state.user.email:'guest@demo.com') || true).slice(0,5);
+  return `
+  <section class="wrap section">
+    <div class="section-head"><div><h2>My Dashboard</h2><p class="section-sub">${state.user?('Welcome back, '+state.user.name):'Signed in as Demo Guest'}</p></div>
+      ${!state.user?`<button class="btn btn-primary" onclick="fakeSignIn()">Sign In</button>`:`<button class="btn btn-outline" onclick="signOut()">Sign Out</button>`}
+    </div>
+    <div class="dash-shell">
+      <div class="dash-side">
+        <a class="active">Overview</a>
+        <a onclick="go('restaurants')">Browse Restaurants</a>
+        <a onclick="go('masjids')">Browse Masjids</a>
+        <a onclick="go('submit')">Submit a Listing</a>
+      </div>
+      <div class="dash-main">
+        <div class="stat-grid">
+          <div class="stat-box"><b>${favR.length}</b><span>Saved Restaurants</span></div>
+          <div class="stat-box"><b>${favM.length}</b><span>Saved Masjids</span></div>
+          <div class="stat-box"><b>${recent.length}</b><span>Recently Viewed</span></div>
+          <div class="stat-box"><b>${mySubs.length}</b><span>Submissions</span></div>
+        </div>
+
+        <h4 style="margin-bottom:12px;">Favorite Restaurants</h4>
+        ${favR.length? `<div class="grid grid-3" style="margin-bottom:28px;">${favR.map(restaurantCard).join("")}</div>` : `<p style="margin-bottom:28px;">No saved restaurants yet. <a style="color:var(--forest);text-decoration:underline;cursor:pointer;" onclick="go('restaurants')">Browse the directory →</a></p>`}
+
+        <h4 style="margin-bottom:12px;">Favorite Masjids</h4>
+        ${favM.length? `<div class="grid grid-3" style="margin-bottom:28px;">${favM.map(masjidCard).join("")}</div>` : `<p style="margin-bottom:28px;">No saved masjids yet.</p>`}
+
+        <h4 style="margin-bottom:12px;">My Submissions</h4>
+        <table>
+          <thead><tr><th>Name</th><th>Type</th><th>City</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody>
+            ${mySubs.map(s=>`<tr><td>${s.name}</td><td>${s.type}</td><td>${s.city}</td><td><span class="status-tag status-${s.status}">${s.status}</span></td><td class="mono">${s.date}</td></tr>`).join("")}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>`;
+}
+function fakeSignIn(){ state.user={name:"Yusuf A.", email:"demo@halalnearme.ca"}; toast("Signed in as Demo Guest"); render(); }
+function signOut(){ state.user=null; toast("Signed out"); render(); }
+
+/* ---------------- PAGE: ADMIN DASHBOARD ---------------- */
+let adminTab = 'submissions';
+function pageAdmin(){
+  const pending = state.submissions.filter(s=>s.status==='pending');
+  const approved = state.submissions.filter(s=>s.status==='approved');
+  const rejected = state.submissions.filter(s=>s.status==='rejected');
+  return `
+  <section class="wrap section">
+    <div class="section-head"><div><h2>Admin Dashboard</h2><p class="section-sub">Manage listings, submissions, and site data.</p></div>
+      <button class="btn btn-outline" onclick="exportData()">⬇ Export Data (JSON)</button>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-box"><b>${RESTAURANTS.length}</b><span>Live Restaurants</span></div>
+      <div class="stat-box"><b>${MASJIDS.length}</b><span>Live Masjids</span></div>
+      <div class="stat-box"><b>${pending.length}</b><span>Pending Review</span></div>
+      <div class="stat-box"><b>${approved.length+rejected.length}</b><span>Reviewed This Month</span></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn ${adminTab==='submissions'?'active':''}" onclick="setAdminTab('submissions')">Submissions</button>
+      <button class="tab-btn ${adminTab==='restaurants'?'active':''}" onclick="setAdminTab('restaurants')">Restaurants</button>
+      <button class="tab-btn ${adminTab==='masjids'?'active':''}" onclick="setAdminTab('masjids')">Masjids</button>
+      <button class="tab-btn ${adminTab==='users'?'active':''}" onclick="setAdminTab('users')">Users</button>
+    </div>
+
+    ${adminTab==='submissions'? `
+      <table>
+        <thead><tr><th>Name</th><th>Type</th><th>City</th><th>Submitted by</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          ${state.submissions.map(s=>`
+            <tr>
+              <td>${s.name}</td><td>${s.type}</td><td>${s.city}</td><td>${s.submittedBy}</td><td class="mono">${s.date}</td>
+              <td><span class="status-tag status-${s.status}">${s.status}</span></td>
+              <td>
+                ${s.status==='pending'? `<button class="btn btn-sm btn-primary" onclick="reviewSubmission('${s.id}','approved')">Approve</button> <button class="btn btn-sm btn-outline" onclick="reviewSubmission('${s.id}','rejected')">Reject</button>`
+                : `<button class="btn btn-sm btn-ghost" onclick="reviewSubmission('${s.id}','pending')">Reset</button>`}
+              </td>
+            </tr>`).join("")}
+        </tbody>
+      </table>
+    ` : ""}
+
+    ${adminTab==='restaurants'? `
+      <table>
+        <thead><tr><th>Name</th><th>City</th><th>Method</th><th>Rating</th><th>Last Verified</th><th>Actions</th></tr></thead>
+        <tbody>
+          ${RESTAURANTS.slice(0,15).map(r=>`
+            <tr><td>${r.name}</td><td>${r.city}</td><td>${methodBadge(r.method)}</td><td>★ ${r.rating}</td><td class="mono">${r.lastVerified}</td>
+            <td><button class="btn btn-sm btn-outline" onclick="viewRestaurant('${r.slug}')">View</button> <button class="btn btn-sm btn-ghost" onclick="toast('Edit form would open here')">Edit</button> <button class="btn btn-sm btn-ghost" onclick="toast('Listing marked featured')">Feature</button></td></tr>`).join("")}
+        </tbody>
+      </table>
+      <p style="margin-top:10px;font-size:12.5px;">Showing 15 of ${RESTAURANTS.length} listings.</p>
+    ` : ""}
+
+    ${adminTab==='masjids'? `
+      <table>
+        <thead><tr><th>Name</th><th>City</th><th>Jummah</th><th>Last Updated</th><th>Actions</th></tr></thead>
+        <tbody>
+          ${MASJIDS.map(m=>`
+            <tr><td>${m.name}</td><td>${m.city}</td><td>${m.jummah}</td><td class="mono">${m.lastUpdated}</td>
+            <td><button class="btn btn-sm btn-outline" onclick="viewMasjid('${m.slug}')">View</button> <button class="btn btn-sm btn-ghost" onclick="toast('Edit form would open here')">Edit</button></td></tr>`).join("")}
+        </tbody>
+      </table>
+    ` : ""}
+
+    ${adminTab==='users'? `
+      <table>
+        <thead><tr><th>User</th><th>Role</th><th>Submissions</th><th>Joined</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td>Demo Guest</td><td>User</td><td>${state.submissions.length}</td><td class="mono">2026-06-01</td><td><button class="btn btn-sm btn-outline" onclick="toast('User moderation coming soon')">Moderate</button></td></tr>
+          <tr><td>amina@demo.com</td><td>User</td><td>1</td><td class="mono">2026-05-14</td><td><button class="btn btn-sm btn-outline" onclick="toast('User moderation coming soon')">Moderate</button></td></tr>
+          <tr><td>yusuf@demo.com</td><td>User</td><td>1</td><td class="mono">2026-04-22</td><td><button class="btn btn-sm btn-outline" onclick="toast('User moderation coming soon')">Moderate</button></td></tr>
+        </tbody>
+      </table>
+    ` : ""}
+  </section>`;
+}
+function setAdminTab(t){ adminTab=t; render(); }
+function reviewSubmission(id, status){
+  const s = state.submissions.find(x=>x.id===id);
+  if(s){ s.status=status; toast("Submission "+status); render(); }
+}
+function exportData(){
+  const blob = new Blob([JSON.stringify({restaurants:RESTAURANTS, masjids:MASJIDS, submissions:state.submissions}, null, 2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download="halal-near-me-export.json"; a.click();
+  toast("Export downloaded");
+}
+
+/* ---------------- MAIN RENDER ---------------- */
+function render(){
+  const app = document.getElementById('app');
+  let body = "";
+  switch(state.route){
+    case "home": body = pageHome(); break;
+    case "restaurants": body = pageRestaurants(); break;
+    case "restaurant": body = pageRestaurantDetail(state.params.slug); break;
+    case "masjids": body = pageMasjids(); break;
+    case "masjid": body = pageMasjidDetail(state.params.slug); break;
+    case "submit": body = pageSubmit(); break;
+    case "about": body = pageAbout(); break;
+    case "contact": body = pageContact(); break;
+    case "travel": body = pageComingSoon("Travel Mode", "Plan halal-friendly road trips: restaurants on your route, nearby masjids, prayer stops, and hotels near masjids.", "🧭"); break;
+    case "cities": body = pageComingSoon("Muslim-Friendly Cities", "City rankings based on halal restaurants, masjids, Islamic schools, Muslim population, and community events.", "🏙️"); break;
+    case "dashboard": body = pageDashboard(); break;
+    case "admin": body = pageAdmin(); break;
+    case "method": {
+      const key = Object.keys(METHODS).find(k=>METHODS[k].slug===state.params.slug);
+      body = pageRestaurants(key);
+      break;
+    }
+    default: body = pageHome();
+  }
+  app.innerHTML = headerHTML() + `<main style="flex:1;">${body}</main>` + footerHTML();
+}
+
+/* ---------------- INIT ---------------- */
+if(!location.hash) location.hash = "#/home";
+route();
+</script>
+</body>
+</html>
